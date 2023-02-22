@@ -1,0 +1,208 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Prediction</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=ABeeZee">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
+    <link rel="stylesheet" href="static/css/styles.min.css">
+    <style>
+        html {
+            scroll-behavior: smooth;
+          }
+          input {
+            margin-top: 1rem;
+        }
+        input::file-selector-button {
+            font-weight: bold;
+            color: dodgerblue;
+            padding: 0.5em;
+            border: thin solid grey;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <nav class="navbar navbar-light navbar-expand-md navigation-clean" style="background-color: #BCA7E8;">
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <img src="{% static '../static/img/logo.png' %}" height='70px' alt="">
+                <img src="{% static '../static/img/logotext.png' %}" height='20px' alt="">
+              </a>
+                <div class="collapse navbar-collapse"
+                    id="navcol-1">
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+                        <li class="nav-item" role="presentation"><a class="nav-link" href="#uploaded">Uploaded Dataset</a></li>
+                        <li class="nav-item" role="presentation"><a class="nav-link" href="#algo">Algorithm</a></li>
+                    </ul>
+                </div>
+        </nav>
+    </div>
+    <div class="article-clean">
+        <br>
+        <br>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 col-xl-8 offset-lg-1 offset-xl-2">
+                    <div class="intro">
+                        <h1 class="text-center" style="font-family:ABeeZee, sans-serif;">Customer Reduction Predictions</h1>
+                    </div>
+                    <div class="text">
+                        <p><br> Customer dissatisfaction measures how frequently customers decide not to buy more of a
+                            company's products or services. An approach to calculating this rate is through customer
+                            attrition analysis. Attrition analysis essentially shows you what proportion of your consumers
+                            don't make a return purchase compared to the proportion that do repeat business. Currently, we are 
+                            Processing only for 3 products i.e., <b> "SAP Advanced Planner and Optimizer", "SAP Cost Center Accounting" &
+                            "SAP Enterprise Learning"</b><br></p>
+                        <p>Click on the Upload Dataset button to upload the Dataset. The Dataset should have following factors before
+                            uploading:
+                        </p>
+                        <ul>
+                            <b>
+                            <li>Customer ID</li>
+                            <li>Country</li>
+                            <li>SAP Advanced Planner and Optimizer</li>
+                            <li>SAP Cost Center Accounting</li>
+                            <li>SAP Enterprise Learning</li>
+                            <li>Active Member</li>
+                            <li>Ratings</li>
+                            <li>Customer feedback Ratings</li>
+                            <li>Churn</li>
+                            </b>
+                        </ul>
+                        <br>
+                        <br>
+                        <h2 id = "uploaded" style="text-align:center"><i>Uploaded Dataset: {{filenametext}}</i></h2>
+                        <br>
+                        <br>
+                        <form action="/train" method="POST">
+                            {% csrf_token %} 
+                        
+                            <h2 id = "algo">Choose algorithm:</h2>
+                            <br>
+                        {% if dTbutton == False %}
+                        <button type="button" class="btn btn-info disabled">Decision Tree</button>
+                        {% else %}
+                        <button id="decisionTreeButton" class="btn btn-info" type="submit" name = "decisionTree">Decision Tree</button>
+                        {% endif %}
+                        {% if svmButton == False %}
+                        <button type="button" class="btn btn-info disabled">Support Vector Machines</button>
+                        {% else %}
+                        <button id="svmButton" class="btn btn-info" type="submit" name="svm" style="margin:0;margin-left:16px;">Support Vector Machines</button>
+                        {% endif %}
+                        {% if ldaButton == False %}
+                        <button type="button" class="btn btn-info disabled">Linear Discriminant Analysis</button>
+                        {% else %}
+                        <button id="ldaButton" class="btn btn-info" type="submit" name="LDA" style="margin:0;margin-left:16px;">Linear Discriminant Analysis</button>
+                        {% endif %}
+                        <p>
+                            <br>
+                            Modelname: <b>{{ modelname }}</b>
+                            <br>
+                            Model Accuracy: <b>{{accfilename}} % </b>
+                        </p>
+                        {% if DTdescription == True %}
+                            <p>Decision Tree models produce a tree-like structure and represents a set of decision values. Each
+                                class label's probability is estimated. Internal, branch, and leaf nodes are the three main types
+                                of nodes found in decision trees. It is one of the most often used attrition prediction models
+                                since it can predict both continuous and categorical data.
+                            </p>
+                        {% endif %}
+                        {% if svmdescription == True %}
+                        <p>Support Vector Machines is used to uncover hidden trends in the dataset. It is a supervised
+                            learning technique that finds the most effective hyperplanes for dividing samples of different
+                            classes using mathematical equations to describe a given collection of variables in a highdimensional environment. In the same high-dimensional space, new samples are represented
+                            and assigned a class based on how close they are to the hyperplane. When used to predict
+                            customer attrition, this model works remarkably well.
+                        </p>
+                        {% endif %}
+                        {% if ldadescription == True %}
+                        <p>Linear Discriminant Analysis (LDA) is a dimensionality reduction technique. By splitting
+                            groups into two or more classes, it is used to illustrate how groups differ from one another.
+                            This technique divides the two groups as clearly as possible between the two groups using data
+                            from the dataset (in our case, the two groups are customers who stay and customers who leave).</p>
+                        {% endif %}
+                        </form>
+                        <br>
+                        <form action="/pickle_model" method="POST">
+                            {% csrf_token %}                         
+                            <h2 id = "algo">Best Model from the 3 Algorithms:</h2>
+                            <br>
+                            {% if pickle_status == False %}
+                            <div class="alert alert-danger" role="alert">
+                                <p>Click on all the above Algorithms to find out the Best Model from them</p>
+                            </div>
+                            <button type="button" class="btn btn-info disabled">Create Final Model</button>
+                            {% elif pickle_status == True %}
+                            <div class="alert alert-success" role="alert">
+                                <p><b>"{{ finalmodelname }}"</b> Model is created and pickled. <b>Filename: {{ filenamefinal }}</b> </p>
+                            </div>
+                            <div>
+                                <canvas id="myChart"></canvas>
+                            </div>
+                            <br>
+                            {% else %}
+                            <p>Click on the Create Final Model to pickle the ML model </p>
+                            <button class="btn btn-info active" type="submit" name = "picklemodel">Create Final Model</button>
+                            {% endif %}
+                        <br>
+                        {% comment %} <h5>
+                            <br>
+                            Accuracy: {{accfilename}} %
+                        </h5> {% endcomment %}
+                        </form>
+                        <figure></figure>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script>
+        const ctx = document.getElementById('myChart');
+        new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: ['Decision Tree','Support Vector Machines','Linear Discriminant Analysis'],
+            datasets: [{
+              label: 'Accuracy',
+              data: [{{dTaccuracy}}, {{svm_accuracy}},{{lda_accuracy}}],
+              borderWidth: 1,
+              barThickness: 100,
+              maxBarThickness: 150,
+              backgroundColor: [
+                'rgb(75, 192, 192)',
+                'rgb(54, 162, 235)',
+                'rgb(153, 102, 255)'
+                ],
+                borderColor: [
+                'rgb(75, 192, 192)',
+                'rgb(54, 162, 235)',
+                'rgb(153, 102, 255)',
+                ],
+            }]
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+      </script>
+</body>
+
+</html>

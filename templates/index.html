@@ -1,0 +1,148 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Prediction</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=ABeeZee">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
+    <link rel="stylesheet" href="static/css/styles.min.css">
+    <style>
+        html {
+            scroll-behavior: smooth;
+          }
+          input {
+            margin-top: 1rem;
+        }
+        input::file-selector-button {
+            font-weight: bold;
+            color: dodgerblue;
+            padding: 0.5em;
+            border: thin solid grey;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <nav class="navbar navbar-light navbar-expand-md navigation-clean" style="background-color: #BCA7E8;">
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <img src="{% static '../static/img/logo.png' %}" height='70px' alt="">
+                <img src="{% static '../static/img/logotext.png' %}" height='20px' alt="">
+              </a>
+                <div class="collapse navbar-collapse"
+                    id="navcol-1">
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item" role="presentation"><a class="nav-link" href="#uploadDataset">Upload Dataset</a></li>
+                        {% comment %} <li class="nav-item" role="presentation"><a class="nav-link" href="#algo">Algorithm</a></li> {% endcomment %}
+                    </ul>
+                </div>
+        </nav>
+    </div>
+    <div class="article-clean">
+        <br>
+        <br>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 col-xl-8 offset-lg-1 offset-xl-2">
+                    <div class="intro">
+                        <h1 class="text-center" style="font-family:ABeeZee, sans-serif;">Customer Reduction Predictions</h1>
+                    </div>
+                    <div class="text">
+                        <p><br> Customer dissatisfaction measures how frequently customers decide not to buy more of a
+                            company's products or services. An approach to calculating this rate is through customer
+                            attrition analysis. Attrition analysis essentially shows you what proportion of your consumers
+                            don't make a return purchase compared to the proportion that do repeat business. Currently, we are 
+                            Processing only for 3 products i.e., <b> "SAP Advanced Planner and Optimizer", "SAP Cost Center Accounting" &
+                            "SAP Enterprise Learning"</b><br></p>
+                        <p>Click on the Upload Dataset button to upload the Dataset. The Dataset should have following factors before
+                            uploading:
+                        </p>
+                        <ul>
+                            <b>
+                            <li>Customer ID</li>
+                            <li>Country</li>
+                            <li>SAP Advanced Planner and Optimizer</li>
+                            <li>SAP Cost Center Accounting</li>
+                            <li>SAP Enterprise Learning</li>
+                            <li>Active Member</li>
+                            <li>Ratings</li>
+                            <li>Customer feedback Ratings</li>
+                            <li>Churn</li>
+                            </b>
+                        </ul>
+                        <h2 id = "uploadDataset">Upload Dataset</h2>
+                        <br>
+                        <form action="/upload" method="POST"  enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {% if valstatus == False %}
+                                <div class="alert alert-danger" role="alert">
+                                    <p> <b>"{{ columnfailure }}"</b> uploaded is not matching with required columns for Prediction.</p>
+                                </div>
+                            {% endif %}
+                            {% if filerror == False %}
+                                <div class="alert alert-danger" role="alert">
+                                    <p> Uploaded file <b>"{{ valfilename }}"</b> has a pickled model: <b>{{ picklefile }}</b> </p>
+                                </div>
+                            {% endif %}
+                            <input type="file" name="dataUpload">
+                            <br>
+                            <br>
+                            <button class="btn btn-info btn-block" type="submit">Submit</button>
+
+                        </form>
+                        <br>
+                        <br>
+                        {% comment %} <form action="/train" method="POST">
+                            {% csrf_token %} 
+                        
+                            <h2 id = "algo">Choose algorithm</h2>
+                            <br>
+                        <button class="btn btn-info" type="submit" name = "decisionTree">Decision Tree</button>
+                        <button class="btn btn-info" type="submit" name="svm" style="margin:0;margin-left:16px;">Support Vector Machines</button>
+                        <button class="btn btn-info" type="submit" name="LDA" style="margin:0;margin-left:16px;">Linear Discriminant Analysis</button>
+                        <h5>
+                            <br>
+                            Accuracy: {{accuracy}}
+                            </h5>
+                        </form>
+                             {% endcomment %}
+                        
+                        <br>
+                        {% comment %} <h2>Download Predictions</h2>
+                        <form action="/predict" method="POST">
+                            {% csrf_token %} 
+                            <button class="btn btn-success" type="submit" name="lg">Logistic regression</button>
+                            <button class="btn btn-success" type="submit" name="xg" style="margin-left:16px;">XGBoost</button>
+                        </form> {% endcomment %}
+                        
+                        
+                        {% comment %} <form action="/eval" method="POST">
+                            {% csrf_token %} 
+                            <h2>Evaluation Metrics</h2>
+                            <br>
+                            <button class="btn btn-info" type="submit" name='dt_metric'>Show Decision Tree Metrics</button>
+                            <button class="btn btn-info" type="submit" name='svm_metric'>Show SVM Metrics</button>
+                            <button class="btn btn-info" type="submit" name='lda_metric'>Show LDA Metrics</button>
+                            <h5>
+                            <br>
+                            Accuracy: {{accuracy}}
+                            </h5>
+                        </form> {% endcomment %}
+                        <figure></figure>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
