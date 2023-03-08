@@ -30,7 +30,7 @@
 
 <body>
     <div>
-        <nav class="navbar navbar-light navbar-expand-md navigation-clean" style="background-color: #BCA7E8;">
+        <nav class="navbar fixed-top navbar-light navbar-expand-md navigation-clean" style="background-color: #BCA7E8;">
             <a class="navbar-brand" href="{% url 'home' %}">
                 <img src="{% static '../static/img/logo.png' %}" height='70px' alt="">
                 <img src="{% static '../static/img/logotext.png' %}" height='20px' alt="">
@@ -39,6 +39,7 @@
                     id="navcol-1">
                     <ul class="nav navbar-nav ml-auto">
                         <li class="nav-item" role="presentation"><a class="nav-link" href="#uploadDataset">Upload Dataset</a></li>
+                        <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'logoutmethod' %}">Logout</a></li>
                         {% comment %} <li class="nav-item" role="presentation"><a class="nav-link" href="#algo">Algorithm</a></li> {% endcomment %}
                     </ul>
                 </div>
@@ -88,6 +89,11 @@
                             {% if filerror == False %}
                                 <div class="alert alert-danger" role="alert">
                                     <p> Uploaded file <b>"{{ valfilename }}"</b> has a pickled model: <b>{{ picklefile }}</b> </p>
+                                </div>
+                            {% endif %}
+                            {% if exceptstatus == True %}
+                                <div class="alert alert-danger" role="alert">
+                                    <p>{{ exception }}</p>
                                 </div>
                             {% endif %}
                             <input type="file" name="dataUpload">

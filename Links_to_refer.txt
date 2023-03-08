@@ -19,3 +19,5 @@ https://medium.datadriveninvestor.com/bank-churn-prediction-using-popular-classi
 https://www.youtube.com/watch?v=_ZOFch3fMLc -> Link to ML and Django
 https://www.analyticsvidhya.com/blog/2022/09/bank-customer-churn-prediction-using-machine-learning/#:~:text=Customer%20Churn%20prediction%20means%20knowing,more%20than%20retaining%20existing%20ones.
 https://projectsplaza.com/how-to-create-bar-chart-image-with-matplotlib-in-django/ -> matplotlib images can be saved
+https://stackoverflow.com/questions/22150006/align-two-divs-horizontally-side-by-side-center-to-the-page-using-bootstrap-css -> col side by side
+https://www.npmjs.com/package/react-gauge-chart -> gauge chart

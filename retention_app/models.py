@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 # Create your models here.
 import seaborn as sns
 from django.shortcuts import render,redirect
+from django.contrib.auth import login,logout,authenticate
+from django.contrib.auth.forms import AuthenticationForm
 import pickle
 import json
 from django.http import HttpResponse, JsonResponse
@@ -11,6 +13,7 @@ from django.core.files.storage import FileSystemStorage
 from sklearn.model_selection import train_test_split, cross_val_score, cross_val_predict
 from sklearn.metrics import accuracy_score
 import os
+import joblib
 
 ldaButton = True
 DTbutton = True
@@ -29,48 +32,57 @@ def upload(request):
     global X,y,filename
     global filenametextdisp
     global filenamefinal
-    if request.method == 'POST':
-        uploaded_file = request.FILES['dataUpload']
-        filenametextdisp = uploaded_file.name
-        for root, dir, files in os.walk('./Final_Model_pickle/'):
-            picklefile = uploaded_file.name
-            picklefile = picklefile.replace('.csv','')
-            picklefile = picklefile +'_model.pkl'
-            if picklefile in files:
-                valfileerror = False
-                fileuploadedstatus ={
-                    'filerror': valfileerror,
-                    'valfilename': filenametextdisp,
-                    'picklefile': picklefile
-                }   
-                return render(request,'index.html',fileuploadedstatus) 
-        fs = FileSystemStorage()
-        fs.save(uploaded_file.name,uploaded_file)
-        filename = {
-            'filenametext': uploaded_file.name
-        }
-        df = pd.read_csv('./Saved_Dataset/' + uploaded_file.name)
-        validation_list = ['customer_id','country', 'tenure', 'SAP Advanced Planner and Optimizer','SAP Cost Center Accounting', 'SAP Enterprise Learning','active_member', 'Customer feedback Ratings', 'churn']
-        valiation_list_upload = df.columns.values.tolist()
-        for i,j in zip(validation_list,valiation_list_upload):
-            if i == j:
-                print("Validation for column {0} is passed".format(i))
-            else:
-                valstatus = False
-                columnfailure = i
-                filenamestatus ={
-                    'valstatus': valstatus,
-                    'columnfailure': columnfailure 
-                }
-                os.remove("./Saved_Dataset/" + uploaded_file.name)
-                return render(request,'index.html',filenamestatus)  
-        df.drop(['customer_id'], inplace =True, axis = 1)
-        df['country'] = df['country'].replace(['Germany'],'0')
-        df['country'] = df['country'].replace(['France'],'1')
-        df['country'] = df['country'].replace(['Spain'],'2')
-        X = df.drop('churn', axis=1)
-        y = df['churn']
-    return  render(request,'upload.html',filename)
+    try:
+        if request.method == 'POST':
+            uploaded_file = request.FILES['dataUpload']
+            filenametextdisp = uploaded_file.name
+            for root, dir, files in os.walk('./Final_Model_pickle/'):
+                picklefile = uploaded_file.name
+                picklefile = picklefile.replace('.csv','')
+                picklefile = picklefile +'_model.pkl'
+                if picklefile in files:
+                    valfileerror = False
+                    fileuploadedstatus ={
+                        'filerror': valfileerror,
+                        'valfilename': filenametextdisp,
+                        'picklefile': picklefile
+                    }   
+                    return render(request,'index.html',fileuploadedstatus) 
+            fs = FileSystemStorage()
+            fs.save(uploaded_file.name,uploaded_file)
+            filename = {
+                'filenametext': uploaded_file.name
+            }
+            df = pd.read_csv('./Saved_Dataset/' + uploaded_file.name)
+            validation_list = ['customer_id','country', 'tenure', 'SAP Advanced Planner and Optimizer','SAP Cost Center Accounting', 'SAP Enterprise Learning','active_member', 'Customer feedback Ratings', 'churn']
+            valiation_list_upload = df.columns.values.tolist()
+            for i,j in zip(validation_list,valiation_list_upload):
+                if i == j:
+                    print("Validation for column {0} is passed".format(i))
+                else:
+                    valstatus = False
+                    columnfailure = i
+                    filenamestatus ={
+                        'valstatus': valstatus,
+                        'columnfailure': columnfailure 
+                    }
+                    os.remove("./Saved_Dataset/" + uploaded_file.name)
+                    return render(request,'index.html',filenamestatus)  
+            df.drop(['customer_id'], inplace =True, axis = 1)
+            df['country'] = df['country'].replace(['Germany'],'0')
+            df['country'] = df['country'].replace(['France'],'1')
+            df['country'] = df['country'].replace(['Spain'],'2')
+            X = df.drop('churn', axis=1)
+            y = df['churn']
+        return  render(request,'upload.html',filename)
+    except Exception:
+        datexcpt = "Upload the Dataset to see the results."
+        exceptstatus = True
+        exception = {
+                'exception': datexcpt,
+                'exceptstatus': exceptstatus
+            }
+        return  render(request,'index.html',exception)
 
 def model_pick(request):
     if decisionTree_accuracy > svm_accuracy and decisionTree_accuracy > lda_accuracy :
@@ -97,6 +109,7 @@ def training(request):
         DTmodelname = 'Decision Tree'
         model = DecisionTreeClassifier()
         model.fit(X_train, y_train)
+        model.feature_names = list(X_train.columns.values)
         y_pred = model.predict(X_test)
         global decisionTree_accuracy
         global final_model
@@ -188,10 +201,18 @@ def picklemodel(request):
             finalmodelname = 'Linear Discriminant Analysis'
             modelname = ldamodelname
         if (final_model):
-            final_model = model
+            directory_path = "./Final_Model_pickle"
+            files = os.listdir(directory_path)
+            if files:
+                for file in files:
+                    file_path = os.path.join(directory_path,file)
+                    try:
+                        if os.path.isfile(file_path):
+                            os.unlink(file_path)
+                    except Exception as e:
+                        print("Error deleting file: {file_path} - {e}")
             filenamefinal = filenametextdisp.replace('.csv','')
-            pickle.dump(final_model, open('./Final_Model_pickle/{0}_model.pkl'.format(filenamefinal), 'wb'))
-            filenamefinal = filenamefinal + "_model.pkl"
+            pickle.dump(model, open('./Final_Model_pickle/Final_Pickled_model.pkl', 'wb'))
             pickle_status = True
             picklestatus = {
                 'pickle_status': pickle_status,
@@ -218,3 +239,40 @@ def picklemodel(request):
             'dTbutton': DTbutton
         }
         return render(request,'upload.html',picklestatus)
+
+def loginmethod(request):
+    if request.method == "POST":
+        loginsuccess = authenticate(request,username = request.POST.get('username'),password = request.POST.get('password'))
+        if loginsuccess is None:
+            return render(request,'login.html',{'success':False,'err':"Username and Password is not correct"})
+        else:
+            login(request,loginsuccess)
+            return render(request,'index.html')
+    else:
+        return render(request,'login.html',{'success':False,'err':"Username and Password is not correct"})
+    
+def logoutmethod(request):
+    logout(request)
+    return render(request,'login.html')
+
+def hostmodel(request):
+    if request.method == 'POST':
+        data =  json.loads(request.body)
+        dataF=pd.DataFrame({'x':data}).transpose()
+        model = joblib.load("./Final_Model_pickle/Final_Pickled_model.pkl", "rb")
+        cols_when_model_builds = model.feature_names
+        dataF = dataF.reindex(columns=cols_when_model_builds)
+        prediction = model.predict(dataF)
+        prediction = json.dumps(int(prediction[0]))
+        probability =  model.predict_proba(dataF)[:,1]
+        probability = json.dumps(float(probability[0]))
+        dataResponse = {
+            'prediction': prediction,
+            'probability': probability
+        }
+        return JsonResponse(dataResponse)
+    else:
+        filedetails = {
+            'filename': 'Final_Pickled_model.pkl'
+        }
+        return render(request, 'hostmodel.html',filedetails)

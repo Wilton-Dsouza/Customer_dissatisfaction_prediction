@@ -30,7 +30,7 @@
 
 <body>
     <div>
-        <nav class="navbar navbar-light navbar-expand-md navigation-clean" style="background-color: #BCA7E8;">
+        <nav class="navbar fixed-top navbar-light navbar-expand-md navigation-clean" style="background-color: #BCA7E8;">
             <a class="navbar-brand" href="{% url 'home' %}">
                 <img src="{% static '../static/img/logo.png' %}" height='70px' alt="">
                 <img src="{% static '../static/img/logotext.png' %}" height='20px' alt="">
@@ -41,6 +41,7 @@
                         <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
                         <li class="nav-item" role="presentation"><a class="nav-link" href="#uploaded">Uploaded Dataset</a></li>
                         <li class="nav-item" role="presentation"><a class="nav-link" href="#algo">Algorithm</a></li>
+                        <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'logoutmethod' %}">Logout</a></li>
                     </ul>
                 </div>
         </nav>
@@ -139,7 +140,7 @@
                             <div class="alert alert-danger" role="alert">
                                 <p>Click on all the above Algorithms to find out the Best Model from them</p>
                             </div>
-                            <button type="button" class="btn btn-info disabled">Create Final Model</button>
+                            <button type="button" class="btn btn-info disabled">Create & Save Final Model</button>
                             {% elif pickle_status == True %}
                             <div class="alert alert-success" role="alert">
                                 <p><b>"{{ finalmodelname }}"</b> Model is created and pickled. <b>Filename: {{ filenamefinal }}</b> </p>
@@ -149,8 +150,8 @@
                             </div>
                             <br>
                             {% else %}
-                            <p>Click on the Create Final Model to pickle the ML model </p>
-                            <button class="btn btn-info active" type="submit" name = "picklemodel">Create Final Model</button>
+                            <p>Click on the Create & Save Final Model to pickle and save the ML model </p>
+                            <button class="btn btn-info active" type="submit" name = "picklemodel">Create & Save Final Model</button>
                             {% endif %}
                         <br>
                         {% comment %} <h5>
@@ -158,6 +159,34 @@
                             Accuracy: {{accfilename}} %
                         </h5> {% endcomment %}
                         </form>
+                        {% if pickle_status == True %}
+                        <form action="/host_model" method="GET">
+                            {% csrf_token %}                         
+                            <br>
+                            {% comment %} {% if pickle_status == False %}
+                            <div class="alert alert-danger" role="alert">
+                                <p>Click on all the above Algorithms to find out the Best Model from them</p>
+                            </div>
+                            <button type="button" class="btn btn-info disabled">Create Final Model</button>
+                            {% elif pickle_status == True %}
+                            <div class="alert alert-success" role="alert">
+                                <p><b>"{{ finalmodelname }}"</b> Model is created and pickled. <b>Filename: {{ filenamefinal }}</b> </p>
+                            </div>
+                            <div>
+                                <canvas id="myChart"></canvas>
+                            </div>
+                            <br>
+                            {% else %} {% endcomment %}
+                            <p>Click on the Host Button to host the ML model </p>
+                            <button class="btn btn-info active" type="submit" name = "hostmodel">Host Pickle Model</button>
+                            {% comment %} {% endif %} {% endcomment %}
+                        <br>
+                        {% comment %} <h5>
+                            <br>
+                            Accuracy: {{accfilename}} %
+                        </h5> {% endcomment %}
+                        </form>
+                        {% endif %}
                         <figure></figure>
                     </div>
                 </div>

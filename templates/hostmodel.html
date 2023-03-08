@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Prediction</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=ABeeZee">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
+    <link rel="stylesheet" href="static/css/styles.min.css">
+    <style>
+        html {
+            scroll-behavior: smooth;
+          }
+          input {
+            margin-top: 1rem;
+        }
+        .gifDisplay{
+            display: flex;
+            justify-content: center;
+            height: 400px;
+        }
+        .container{
+            display: flex;
+            justify-content: center;
+        }
+        .linkref{
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="article-clean">
+        <br>
+        <br>
+        <div class="container">
+            <div class="row">
+                <div>
+                    <div class="intro">
+                        <h1 class="text-center" style="font-family:ABeeZee, sans-serif;">The Model has been hosted: {{ filename }}</h1>
+                    </div>
+                    <br>
+                    <div class="linkref">
+                        <p> Link to check the API calls and responses: http://127.0.0.1:8000/host_model
+                        </p>
+                        <figure></figure>
+                    </div>
+                    <div class="gifDisplay">
+                        <img src="{% static '../static/img/hosted.gif' %}">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
