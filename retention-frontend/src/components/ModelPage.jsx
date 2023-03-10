@@ -31,7 +31,7 @@ function ModelPage () {
             name = 'Tenure';
             screenDisplayResponse[name] = value1;
         }
-        if (name === 'SAP Advanced Planner and Optimizer'){
+        if (name === 'Product1'){
             name = 'Product 1';
             if (value1 === 0){
                 value2 = "No";
@@ -41,7 +41,7 @@ function ModelPage () {
             }
             screenDisplayResponse[name] = value2;
         }
-        if (name === 'SAP Cost Center Accounting'){
+        if (name === 'Product2'){
             name = 'Product 2';
             if (value1 === 0){
                 value2 = "No";
@@ -51,7 +51,7 @@ function ModelPage () {
             }
             screenDisplayResponse[name] = value2;
         }
-        if (name === 'SAP Enterprise Learning'){
+        if (name === 'Product3'){
             name = 'Product 3';
             if (value1 === 0){
                 value2 = "No";
@@ -137,7 +137,7 @@ function ModelPage () {
                        <div className="col">
                             <div>
                                 <p style={{color:"white",marginLeft:"10px"}}>Product 1</p>
-                                <select defaultValue={''} required name="SAP Advanced Planner and Optimizer" onChange={handleDropdownChange} style={{borderRadius:"999px",height:"7vh",width:"25vh",padding: "0 10px"}}>
+                                <select defaultValue={''} required name="Product1" onChange={handleDropdownChange} style={{borderRadius:"999px",height:"7vh",width:"25vh",padding: "0 10px"}}>
                                 <option value="" disabled selected>Select</option>
                                     <option value="1">Yes</option>
                                     <option value="0">No</option>
@@ -149,7 +149,7 @@ function ModelPage () {
                        <div className="col">
                            <div style={{marginBottom:"30px"}}>
                                <p style={{color:"white",marginLeft:"10px"}}>Product 2</p>
-                               <select defaultValue={''} required name="SAP Cost Center Accounting" onChange={handleDropdownChange} style={{borderRadius:"999px",height:"7vh",width:"25vh",padding: "0 10px"}}>
+                               <select defaultValue={''} required name="Product2" onChange={handleDropdownChange} style={{borderRadius:"999px",height:"7vh",width:"25vh",padding: "0 10px"}}>
                                <option value="" disabled>Select</option>
                                     <option value="1">Yes</option>
                                     <option value="0">No</option>
@@ -159,7 +159,7 @@ function ModelPage () {
                        <div className="col">
                             <div style={{marginBottom:"30px"}}>
                                <p style={{color:"white",marginLeft:"10px"}}>Product 3</p>
-                               <select defaultValue={''} required name="SAP Enterprise Learning" onChange={handleDropdownChange} style={{borderRadius:"999px",height:"7vh",width:"25vh",padding: "0 10px"}}>
+                               <select defaultValue={''} required name="Product3" onChange={handleDropdownChange} style={{borderRadius:"999px",height:"7vh",width:"25vh",padding: "0 10px"}}>
                                <option value="" disabled>Select</option>
                                     <option value="1">Yes</option>
                                     <option value="0">No</option>

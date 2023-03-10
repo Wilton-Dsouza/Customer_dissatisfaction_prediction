@@ -54,7 +54,7 @@ def upload(request):
                 'filenametext': uploaded_file.name
             }
             df = pd.read_csv('./Saved_Dataset/' + uploaded_file.name)
-            validation_list = ['customer_id','country', 'tenure', 'SAP Advanced Planner and Optimizer','SAP Cost Center Accounting', 'SAP Enterprise Learning','active_member', 'Customer feedback Ratings', 'churn']
+            validation_list = ['customer_id','country', 'tenure', 'Product1','Product2', 'Product3','active_member', 'Customer feedback Ratings', 'churn']
             valiation_list_upload = df.columns.values.tolist()
             for i,j in zip(validation_list,valiation_list_upload):
                 if i == j:

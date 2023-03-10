@@ -1,4 +1,4 @@
-customer_id,country,tenure,SAP Advanced Planner and Optimizer,SAP Cost Center Accounting,SAP Enterprise Learning,active_member,Customer feedback Ratings,churn
+customer_id,country,tenure,Product1,Product2,Product3,active_member,Customer feedback Ratings,churn
 15634602,France,2,1,0,1,1,3,1
 15647311,Spain,1,0,1,1,1,3,0
 15619304,France,8,0,1,0,0,5,1
