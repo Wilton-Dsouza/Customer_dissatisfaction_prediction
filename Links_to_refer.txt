@@ -21,3 +21,13 @@ https://www.analyticsvidhya.com/blog/2022/09/bank-customer-churn-prediction-usin
 https://projectsplaza.com/how-to-create-bar-chart-image-with-matplotlib-in-django/ -> matplotlib images can be saved
 https://stackoverflow.com/questions/22150006/align-two-divs-horizontally-side-by-side-center-to-the-page-using-bootstrap-css -> col side by side
 https://www.npmjs.com/package/react-gauge-chart -> gauge chart
+
+Reasons why Customer churn happen:
+
+1. Poor Customer Experience: According to a study by PwC, 32% of customers would stop doing business with a company they loved after one bad experience.
+2. Lack of Personalization: A survey by Epsilon found that 80% of customers are more likely to do business with a company that offers personalized experiences.
+3. High Prices: A study by McKinsey found that price sensitivity is increasing across all industries, with 49% of customers switching brands due to price.
+4. Changes in Customer Needs: A survey by Salesforce found that 64% of customers expect companies to adapt to their changing needs and preferences.
+5. Competitors' Offers: A study by Accenture found that 82% of customers would switch brands due to better service or prices.
+6. Negative Publicity: According to a survey by Edelman, 55% of customers would stop doing business with a company they perceived as unethical.
+7. Lack of Innovation: A survey by Forrester found that 47% of customers would switch brands if a company fails to provide innovative products or services.
