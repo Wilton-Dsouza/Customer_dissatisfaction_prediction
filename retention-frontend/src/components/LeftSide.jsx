@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Form, Button, Container, Image } from "react-bootstrap";
 import { Navigate } from "react-router-dom";
 import Alert from 'react-bootstrap/Alert';
-import { If, Then, ElseIf, Else } from 'react-if-elseif-else-render';
+import { If, Then, ElseIf} from 'react-if-elseif-else-render';
 const LeftSide = () => {
   // const [users, setUsers] = useState(false);
   const [email, setEmail] = useState("");
@@ -22,11 +22,16 @@ const LeftSide = () => {
         // console.log(data);
         // return response.text();
         // return response.text();
-      })
+      }, error => {
+        setloginStatus("Error");
+      })  
       .then((data) => {
         if (data.length > 0) {
           setloginStatus("Success");
-        } else {
+        } else if (data.length === undefined){
+          setloginStatus("Error");
+        }
+        else {
           setloginStatus("Failure");
         }
       });
@@ -105,9 +110,13 @@ const LeftSide = () => {
           Username or Password is incorrect!
         </Alert>
         </ElseIf>
-        <Else>
-        {loginStatus === ""}
-        </Else>
+        <ElseIf condition={loginStatus === "Error"}>
+        <br></br>
+        <br></br>
+        <Alert key="danger" variant="danger">
+          Node JS Server is disconnected. Please Try again later!!
+        </Alert>
+        </ElseIf>
       </If>
     </Container>
   );
