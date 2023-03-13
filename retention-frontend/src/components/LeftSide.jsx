@@ -31,8 +31,13 @@ const LeftSide = () => {
         } else if (data.length === undefined){
           setloginStatus("Error");
         }
-        else {
-          setloginStatus("Failure");
+        else if (data.length === 0){
+          if(email === "" || password === ""){
+            setloginStatus("Empty")
+          }
+          else{
+            setloginStatus("Failure");
+          }
         }
       });
     // .then(data => {
@@ -76,11 +81,13 @@ const LeftSide = () => {
           onChange={(e) => {
             setEmail(e.target.value);
           }}
+          required
         />
       </Form.Group>
       <Form.Group className="mb-3" controlId="formBasicPassword">
         <Form.Label>Password</Form.Label>
         <Form.Control
+        required
           type="password"
           placeholder="Enter Password"
           onChange={(e) => {
@@ -115,6 +122,13 @@ const LeftSide = () => {
         <br></br>
         <Alert key="danger" variant="danger">
           Node JS Server is disconnected. Please Try again later!!
+        </Alert>
+        </ElseIf>
+        <ElseIf condition={loginStatus === "Empty"}>
+        <br></br>
+        <br></br>
+        <Alert key="danger" variant="danger">
+          Please enter the credentials above
         </Alert>
         </ElseIf>
       </If>
