@@ -58,8 +58,9 @@ def upload(request):
             valiation_list_upload = df.columns.values.tolist()
             for i,j in zip(validation_list,valiation_list_upload):
                 if i == j:
-                    print("Validation for column {0} is passed".format(i))
+                    print("\033[32mValidation for column {0} is passed\033[0m".format(i))
                 else:
+                    print("\033[31mValidation for column {0} is failed\033[0m".format(i))
                     valstatus = False
                     columnfailure = i
                     filenamestatus ={
