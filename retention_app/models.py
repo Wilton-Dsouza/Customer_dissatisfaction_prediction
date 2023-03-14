@@ -277,3 +277,12 @@ def hostmodel(request):
             'filename': 'Final_Pickled_model.pkl'
         }
         return render(request, 'hostmodel.html',filedetails)
+
+def getmodel(request):
+    if request.method == 'GET':
+        path = './Final_Model_pickle/Final_Pickled_model.pkl'
+        if os.path.isfile(path):
+            data = {'message': 'File exists'}
+        else:
+            data = {'message': 'File does not exist'}
+        return JsonResponse(data)

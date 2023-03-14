@@ -3,8 +3,27 @@ import { If, Then, Else } from 'react-if-elseif-else-render';
 import Button from 'react-bootstrap/Button';
 import GaugeChart from 'react-gauge-chart';
 import ChurnNavbar from "./ChurnNavbar";
+import Alert from 'react-bootstrap/Alert';
   
 function ModelPage () {
+    const [filemessage,finalfilemessage] = useState({});
+    fetch("http://127.0.0.1:8000/get_model", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        })
+        .then((response) => {
+            return response.json();
+        })
+        .then((data) => {
+            if (data.message === 'File does not exist'){
+                finalfilemessage("SubmitDisable")
+            }
+            else{
+                finalfilemessage("SubmitEnable")
+            }
+        });
     const [finaluserResponse,finalsetuserResponse] = useState({});
     let userResponse = {};
     let screenDisplayResponse = {};
@@ -88,22 +107,14 @@ function ModelPage () {
             })
             .then((response) => {
                 return response.json();
-                // console.log(data);
-                // return response.text();
-                // return response.text();
             })
             .then((data) => {
-                // if (data.length > 0) {
-                // setloginStatus("Success");
-                // } else {
-                // setloginStatus("Failure");
-                // }
                 finalsetuserResponse(data);
             });
         const form = event.target;
         setfinalscreenDisplayResponse(screenDisplayResponse);
         form.reset();
-      }      
+      }
 
     return (
         <div>
@@ -201,15 +212,31 @@ function ModelPage () {
                        </div>
                    </div>
                    <div style={{marginLeft:"50px", marginRight:"50px"}} className="col">
-                   <Button
-                        className="w-100"
-                        variant="info"
-                        size="lg"
-                        type="submit"
-                        block="false"
-                    >
-                        Predict
-                    </Button>
+                   <If condition={filemessage === "SubmitDisable"}>
+                        <Then>
+                            <Button
+                            className="w-100"
+                            variant="info"
+                            size="lg"
+                            type="submit"
+                            block="false"
+                            disabled="true"
+                            >
+                            Predict
+                            </Button>
+                        </Then>
+                        <Else>
+                            <Button
+                            className="w-100"
+                            variant="info"
+                            size="lg"
+                            type="submit"
+                            block="false"
+                        >
+                            Predict
+                            </Button>
+                        </Else>
+                    </If>
                     <br></br>
                     <br></br>
                     </div>
@@ -218,22 +245,34 @@ function ModelPage () {
                 <div className="row">
                 <div className="col-md-4">
                 <If condition={finaluserResponse.probability}>
-                    <Then>
-                        <GaugeChart id="gauge-chart5" percent={finaluserResponse.probability}/>
-                    </Then>
-                    <Else>
-                        <GaugeChart id="gauge-chart5" percent={0.0}/>
-                    </Else>
+                        <Then>
+                            <GaugeChart id="gauge-chart5" percent={finaluserResponse.probability}/>
+                        </Then>
+                        <Else>
+                            <GaugeChart id="gauge-chart5" percent={0.0}/>
+                        </Else>
                 </If>
                 </div>
+                    
+                    <If condition={filemessage === "SubmitDisable"}>
+                    <Then>
+                    <div className="col-md-8">
+                    <Alert key="danger" variant="danger">
+                    Model is not created by the Administrator. Please contact the Admin Team.
+                    </Alert>
+                    </div>
+                    </Then>
+                    <Else>
                     <div className="col-md-4">
                     {Object.entries(finalscreenDisplayResponse).map(([key, value]) => (
-                        <div key={key}>
-                        <span>{key}:</span> {value}
-                        </div>
-                    ))}
+                            <div key={key}>
+                            <span>{key}:</span> {value}
+                            </div>
+                        ))}
                     <p>{finaluserResponse.prediction}</p>
                     </div>
+                    </Else>
+                    </If>
                 </div>
                 </div>
                 </form>
