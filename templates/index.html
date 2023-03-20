@@ -61,24 +61,32 @@
                             don't make a return purchase compared to the proportion that do repeat business. Currently, we are 
                             Processing only for 3 products i.e., <b> "SAP Advanced Planner and Optimizer", "SAP Cost Center Accounting" &
                             "SAP Enterprise Learning"</b><br></p>
+                        <br>    
+                        <h4><b>Prerequisites:</b></h4>
                         <p>Click on the Upload Dataset button to upload the Dataset. The Dataset should have following factors before
                             uploading:
                         </p>
                         <ul>
-                            <b>
-                            <li>Customer ID</li>
-                            <li>Country</li>
-                            <li>Product1</li>
-                            <li>Product2</li>
-                            <li>Product3</li>
-                            <li>Active Member</li>
-                            <li>Ratings</li>
-                            <li>Customer feedback Ratings</li>
-                            <li>Churn</li>
-                            </b>
+                            
+                            <li><b>Customer ID:</b> CSV file should consist the header column name as <b>'column_id'</b></li>
+                            <li><b>Country:</b> CSV file should consist the header column name as <b>'country'</b>. Currently supported with three countries i.e.,</li>
+                            <ul>
+                                <b>
+                                <li>Germany</li>
+                                <li>France</li>
+                                <li>Spain</li>
+                                </b>
+                            </ul>
+                            <li><b>Product1:</b> CSV file should consist the header column name as <b>'Product1'</b>. Values should be should be boolean. O meaning No, 1 meaning Yes</li>
+                            <li><b>Product2:</b> CSV file should consist the header column name as <b>'Product2'</b>. Values should be should be boolean. O meaning No, 1 meaning Yes</li>
+                            <li><b>Product3:</b> CSV file should consist the header column name as <b>'Product3'</b>. Values should be should be boolean. O meaning No, 1 meaning Yes</li>
+                            <li><b>Active Member:</b> CSV file should consist the header column name as <b>'active_member'</b>. Values should be should be boolean. O meaning No, 1 meaning Yes</li>
+                            <li><b>Customer feedback Ratings:</b> CSV file should consist the header column name as <b>'Customer feedback Ratings'</b>. Values are considered from 1 to 5, 1 being the lowest and 5 being the highest</li>
+                            <li><b>Churn:</b> CSV file should consist the header column name as <b>'churn'</b>. Values should be should be boolean. O meaning No, 1 meaning Yes</li>
+                            
                         </ul>
-                        <h2 id = "uploadDataset">Upload Dataset</h2>
                         <br>
+                        <h4 id = "uploadDataset"><b>Upload Dataset:</b></h4>
                         <form action="/upload" method="POST"  enctype="multipart/form-data">
                             {% csrf_token %}
                             {% if valstatus == False %}
