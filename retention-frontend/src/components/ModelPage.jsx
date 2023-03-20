@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { If, Then, Else } from 'react-if-elseif-else-render';
+import { If, Then, Else, ElseIf } from 'react-if-elseif-else-render';
 import Button from 'react-bootstrap/Button';
 import GaugeChart from 'react-gauge-chart';
 import ChurnNavbar from "./ChurnNavbar";
@@ -15,12 +15,15 @@ function ModelPage () {
         })
         .then((response) => {
             return response.json();
+        },
+        err => {
+            finalfilemessage("Django Server is not enabled or its down!!")
         })
         .then((data) => {
             if (data.message === 'File does not exist'){
                 finalfilemessage("SubmitDisable")
             }
-            else{
+            if (data.message === 'File exists'){
                 finalfilemessage("SubmitEnable")
             }
         });
@@ -225,6 +228,18 @@ function ModelPage () {
                             Predict
                             </Button>
                         </Then>
+                        <ElseIf condition={filemessage === "Django Server is not enabled or its down!!"}>
+                        <Button
+                            className="w-100"
+                            variant="info"
+                            size="lg"
+                            type="submit"
+                            block="false"
+                            disabled="true"
+                            >
+                            Predict
+                            </Button>
+                        </ElseIf>
                         <Else>
                             <Button
                             className="w-100"
@@ -253,7 +268,6 @@ function ModelPage () {
                         </Else>
                 </If>
                 </div>
-                    
                     <If condition={filemessage === "SubmitDisable"}>
                     <Then>
                     <div className="col-md-8">
@@ -262,6 +276,13 @@ function ModelPage () {
                     </Alert>
                     </div>
                     </Then>
+                    <ElseIf condition={filemessage === "Django Server is not enabled or its down!!"}>
+                    <div className="col-md-8">
+                    <Alert key="danger" variant="danger">
+                    Django Server is not enabled or its down!! Please contact the Admin Team.
+                    </Alert>
+                    </div>
+                    </ElseIf>
                     <Else>
                     <div className="col-md-4">
                     {Object.entries(finalscreenDisplayResponse).map(([key, value]) => (
