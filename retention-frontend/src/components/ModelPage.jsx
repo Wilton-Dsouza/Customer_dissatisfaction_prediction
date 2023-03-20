@@ -113,6 +113,7 @@ function ModelPage () {
             })
             .then((data) => {
                 finalsetuserResponse(data);
+                finaluserResponse.probability = parseFloat(finaluserResponse.probability)
             });
         const form = event.target;
         setfinalscreenDisplayResponse(screenDisplayResponse);
@@ -269,30 +270,109 @@ function ModelPage () {
                 </If>
                 </div>
                     <If condition={filemessage === "SubmitDisable"}>
-                    <Then>
-                    <div className="col-md-8">
-                    <Alert key="danger" variant="danger">
-                    Model is not created by the Administrator. Please contact the Admin Team.
-                    </Alert>
-                    </div>
-                    </Then>
+                        <Then>
+                        <div className="col-md-8">
+                        <Alert key="danger" variant="danger">
+                        Model is not created by the Administrator. Please contact the Admin Team.
+                        </Alert>
+                        </div>
+                        </Then>
                     <ElseIf condition={filemessage === "Django Server is not enabled or its down!!"}>
-                    <div className="col-md-8">
-                    <Alert key="danger" variant="danger">
-                    Django Server is not enabled or its down!! Please contact the Admin Team.
-                    </Alert>
+                        <div className="col-md-8">
+                        <Alert key="danger" variant="danger">
+                        Django Server is not enabled or its down!! Please contact the Admin Team.
+                        </Alert>
+                        </div>
+                    </ElseIf>
+                    <ElseIf condition={finaluserResponse.prediction}>
+                    <div className="col-md-7">
+                        <If condition={finaluserResponse.prediction === "1"}>
+                        <Then>
+                            <div className="row">
+                            <Alert key="danger" variant="danger">
+                                Customer is <b>"likely to churn"</b> out of the company
+                                </Alert> 
+                            </div>
+                            <div className="row">
+                            {Object.entries(finalscreenDisplayResponse).map(([key, value]) => (
+                                <div key={key}>
+                                <span style={{color:"white"}}>{key}:</span > <span style={{color:"red"}}>{value}</span>
+                                </div>
+                            ))}
+                            </div>
+                            <div className="row">
+                            <p>Few Reasons to think about:</p>
+                            <If condition={finaluserResponse.probability <= 0.35}>
+                                        <Then>
+                                            <ul>
+                                                <li style={{color:"yellow"}}>Poor Customer Experience</li>
+                                                <li style={{color:"yellow"}}>Lack of Personalization</li>
+                                                <li style={{color:"green"}}>Negative Publicity/Competitors' Offers</li>
+                                            </ul>
+                                        </Then>
+                                        <ElseIf condition={finaluserResponse.probability >= 0.35 && finaluserResponse.probability < 0.65}>
+                                            <ul>
+                                                <li style={{color:"red"}}>Poor Customer Experience</li>
+                                                <li style={{color:"yellow"}}>Lack of Personalization</li>
+                                                <li style={{color:"yellow"}}>Negative Publicity/Competitors' Offers</li>
+                                            </ul>
+                                        </ElseIf>
+                                        <ElseIf condition={finaluserResponse.probability > 0.65}> 
+                                        <h1>Reached inside</h1>
+                                                <ul>
+                                                <li style={{color:"red"}}>Poor Customer Experience</li>
+                                                <li style={{color:"red"}}>Lack of Personalization</li>
+                                                <li style={{color:"red"}}>Negative Publicity/Competitors' Offers</li>
+                                                </ul>
+                                        </ElseIf>
+                                    </If>
+                                </div>
+                            </Then>
+                        <ElseIf condition={finaluserResponse.prediction === "0"}>
+                            <div className="row">
+                            <Alert key="success" variant="success">
+                                Customer is <b>"not likely to churn"</b> out of the company
+                                </Alert>
+                            </div>
+                            <div className="row">
+                            {Object.entries(finalscreenDisplayResponse).map(([key, value]) => (
+                                <div key={key}>
+                                <span style={{color:"white"}}>{key}:</span> <span style={{color:"green"}}>{value}</span>
+                                </div>
+                            ))}
+                            </div>
+                            <br></br>
+                            <div className="row">
+                                <h4>Few Reasons to think about:</h4>
+                                <If condition={finaluserResponse.probability <= 0.35}>
+                                        <Then>
+                                            <ul>
+                                                <li style={{color:"red"}}>Poor Customer Experience</li>
+                                                <li style={{color:"yellow"}}>Lack of Personalization</li>
+                                                <li style={{color:"yellow"}}>Negative Publicity/Competitors' Offers</li>
+                                            </ul>
+                                        </Then>
+                                        <ElseIf condition={finaluserResponse.probability >= 0.35 && finaluserResponse.probability < 0.65}>
+                                            <ul>
+                                                <li style={{color:"red"}}>Poor Customer Experience</li>
+                                                <li style={{color:"yellow"}}>Lack of Personalization</li>
+                                                <li style={{color:"yellow"}}>Negative Publicity/Competitors' Offers</li>
+                                            </ul>
+                                        </ElseIf>
+                                        <ElseIf condition={finaluserResponse.probability > 0.65}> 
+                                        <h1>Reached inside</h1>
+                                                <ul>
+                                                    <li style={{color:"yellow"}}>Poor Customer Experience</li>
+                                                    <li style={{color:"green"}}>Lack of Personalization</li>
+                                                    <li style={{color:"green"}}>Negative Publicity/Competitors' Offers</li>
+                                                </ul>
+                                        </ElseIf>
+                                    </If>
+                                </div>
+                        </ElseIf>
+                        </If>
                     </div>
                     </ElseIf>
-                    <Else>
-                    <div className="col-md-4">
-                    {Object.entries(finalscreenDisplayResponse).map(([key, value]) => (
-                            <div key={key}>
-                            <span>{key}:</span> {value}
-                            </div>
-                        ))}
-                    <p>{finaluserResponse.prediction}</p>
-                    </div>
-                    </Else>
                     </If>
                 </div>
                 </div>

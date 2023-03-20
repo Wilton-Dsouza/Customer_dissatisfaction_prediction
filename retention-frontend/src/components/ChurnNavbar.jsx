@@ -30,7 +30,7 @@ function ChurnNavbar() {
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto"></Nav>
           <Nav.Link>
-            <Nav onClick={deflogout}>Logout</Nav>
+            <Nav onClick={deflogout}><b>Logout</b></Nav>
           </Nav.Link>
           <If condition={logout === true}>
             <Then>
