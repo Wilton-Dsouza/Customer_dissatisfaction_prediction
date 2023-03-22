@@ -58,9 +58,9 @@ def upload(request):
             valiation_list_upload = df.columns.values.tolist()
             for i,j in zip(validation_list,valiation_list_upload):
                 if i == j:
-                    print("\033[32mValidation for column {0} is passed\033[0m".format(i))
+                    print("\033[32mValidation for column header name {0} is passed\033[0m".format(i))
                 else:
-                    print("\033[31mValidation for column {0} is failed\033[0m".format(i))
+                    print("\033[31mValidation for column header name {0} is failed\033[0m".format(i))
                     valstatus = False
                     columnfailure = i
                     filenamestatus ={
@@ -68,7 +68,107 @@ def upload(request):
                         'columnfailure': columnfailure 
                     }
                     os.remove("./Saved_Dataset/" + uploaded_file.name)
-                    return render(request,'index.html',filenamestatus)  
+                    return render(request,'index.html',filenamestatus)
+                
+            if set(df['country'].unique()).issubset(['Germany','France','Spain']):
+                print("\033[32mValidation for country values check is passed\033[0m")
+            else:
+                countryvaluecheck = True
+                countryfilevalue = {
+                    'countryvaluecheck' : countryvaluecheck
+                }
+                print("\033[31mValidation for country check is failed. Other values than required values are included\033[0m")
+                os.remove("./Saved_Dataset/" + uploaded_file.name)
+                return render(request,'index.html',countryfilevalue) 
+            
+            if set(df['Product1'].unique()).issubset([0,1]):
+                print("\033[32mValidation for Product1 values check is passed\033[0m")
+            else:
+                product1valuecheck = True
+                product1filevalue = {
+                    'product1valuecheck' : product1valuecheck
+                }
+                print("\033[31mValidation for Product 1 check is failed. Other values than 0 and 1\033[0m")
+                os.remove("./Saved_Dataset/" + uploaded_file.name)
+                return render(request,'index.html',product1filevalue)
+            
+            if set(df['Product2'].unique()).issubset([0,1]):
+                print("\033[32mValidation for Product2 values check is passed\033[0m")
+            else:
+                product2valuecheck = True
+                product2filevalue = {
+                    'product2valuecheck' : product2valuecheck
+                }
+                print("\033[31mValidation for Product 2 check is failed. Other values than 0 and 1\033[0m")
+                os.remove("./Saved_Dataset/" + uploaded_file.name)
+                return render(request,'index.html',product2filevalue)
+            
+            if set(df['Product3'].unique()).issubset([0,1]):
+                print("\033[32mValidation for Product3 values check is passed\033[0m")
+            else:
+                product3valuecheck = True
+                product3filevalue = {
+                    'product3valuecheck' : product3valuecheck
+                }
+                print("\033[31mValidation for Product 3 check is failed. Other values than 0 and 1\033[0m")
+                os.remove("./Saved_Dataset/" + uploaded_file.name)
+                return render(request,'index.html',product3filevalue)
+            
+            if set(df['active_member'].unique()).issubset([0,1]):
+                print("\033[32mValidation for active member values check is passed\033[0m")
+            else:
+                activemembervaluecheck = True
+                activememberfilevalue = {
+                    'activemembervaluecheck' : activemembervaluecheck
+                }
+                print("\033[31mValidation for active member check is failed. Other values than 0 and 1\033[0m")
+                os.remove("./Saved_Dataset/" + uploaded_file.name)
+                return render(request,'index.html',activememberfilevalue)
+            
+            if set(df['Customer feedback Ratings'].unique()).issubset([1,2,3,4,5]):
+                print("\033[32mValidation for Customer feedback Ratings values check is passed\033[0m")
+            else:
+                ratingsvaluecheck = True
+                ratingfilevalue = {
+                    'ratingsvaluecheck' : ratingsvaluecheck
+                }
+                print("\033[31mValidation for Customer feedback Ratings check is failed. Other values than 0 and 1\033[0m")
+                os.remove("./Saved_Dataset/" + uploaded_file.name)
+                return render(request,'index.html',ratingfilevalue)
+            
+            if set(df['churn'].unique()).issubset([0,1]):
+                print("\033[32mValidation for churn values check is passed\033[0m")
+            else:
+                churnvaluecheck = True
+                churnfilevalue = {
+                    'churnvaluecheck' : churnvaluecheck
+                }
+                print("\033[31mValidation for churn value check is failed. Other values than 0 and 1\033[0m")
+                os.remove("./Saved_Dataset/" + uploaded_file.name)
+                return render(request,'index.html',churnfilevalue)
+            
+            if df.isnull().any().any():
+                 nullstatus = True
+                 nullfilestatus = {
+                     'nullstatus': nullstatus
+                 }
+                 print("\033[31mValidation for null values check is failed\033[0m")
+                 os.remove("./Saved_Dataset/" + uploaded_file.name)
+                 return render(request,'index.html',nullfilestatus)
+            else:
+                 print("\033[32mValidation for null values check is passed\033[0m")
+
+            if df.duplicated().any():
+                duplicatestatus = True
+                duplicatefilestatus = {
+                    'duplicatestatus': duplicatestatus
+                }
+                print("\033[31mValidation for duplicate values check is failed\033[0m")
+                os.remove("./Saved_Dataset/" + uploaded_file.name)
+                return render(request,'index.html',duplicatefilestatus)
+            else:
+                 print("\033[32mValidation for duplicate values check is passed\033[0m") 
+
             df.drop(['customer_id'], inplace =True, axis = 1)
             df['country'] = df['country'].replace(['Germany'],'0')
             df['country'] = df['country'].replace(['France'],'1')

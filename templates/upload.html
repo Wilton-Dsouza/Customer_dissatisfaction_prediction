@@ -60,24 +60,31 @@
                             company's products or services. An approach to calculating this rate is through customer
                             attrition analysis. Attrition analysis essentially shows you what proportion of your consumers
                             don't make a return purchase compared to the proportion that do repeat business. Currently, we are 
-                            Processing only for 3 products i.e., <b> "SAP Advanced Planner and Optimizer", "SAP Cost Center Accounting" &
-                            "SAP Enterprise Learning"</b><br></p>
-                        <p>Click on the Upload Dataset button to upload the Dataset. The Dataset should have following factors before
-                            uploading:
-                        </p>
-                        <ul>
-                            <b>
-                            <li>Customer ID</li>
-                            <li>Country</li>
-                            <li>SAP Advanced Planner and Optimizer</li>
-                            <li>SAP Cost Center Accounting</li>
-                            <li>SAP Enterprise Learning</li>
-                            <li>Active Member</li>
-                            <li>Ratings</li>
-                            <li>Customer feedback Ratings</li>
-                            <li>Churn</li>
-                            </b>
-                        </ul>
+                            Processing only for 3 products i.e., <b>"Product1", "Product2" &
+                                "Product3"</b><br></p>
+                                <h4><b>Prerequisites:</b></h4>
+                                <p>Click on the Upload Dataset button to upload the Dataset. The Dataset should have following factors before
+                                    uploading:
+                                </p>
+                                <ul>
+                                    
+                                    <li><b>Customer ID:</b> CSV file should consist the header column name as <b>'column_id'</b></li>
+                                    <li><b>Country:</b> CSV file should consist the header column name as <b>'country'</b>. Currently supported with three countries i.e.,</li>
+                                    <ul>
+                                        <b>
+                                        <li>Germany</li>
+                                        <li>France</li>
+                                        <li>Spain</li>
+                                        </b>
+                                    </ul>
+                                    <li><b>Product1:</b> CSV file should consist the header column name as <b>'Product1'</b>. Values should be should be boolean. O meaning No, 1 meaning Yes</li>
+                                    <li><b>Product2:</b> CSV file should consist the header column name as <b>'Product2'</b>. Values should be should be boolean. O meaning No, 1 meaning Yes</li>
+                                    <li><b>Product3:</b> CSV file should consist the header column name as <b>'Product3'</b>. Values should be should be boolean. O meaning No, 1 meaning Yes</li>
+                                    <li><b>Active Member:</b> CSV file should consist the header column name as <b>'active_member'</b>. Values should be should be boolean. O meaning No, 1 meaning Yes</li>
+                                    <li><b>Customer feedback Ratings:</b> CSV file should consist the header column name as <b>'Customer feedback Ratings'</b>. Values are considered from 1 to 5, 1 being the lowest and 5 being the highest</li>
+                                    <li><b>Churn:</b> CSV file should consist the header column name as <b>'churn'</b>. Values should be should be boolean. O meaning No, 1 meaning Yes</li>
+                                    
+                                </ul>
                         <br>
                         <br>
                         <h2 id = "uploaded" style="text-align:center"><i>Uploaded Dataset: {{filenametext}}</i></h2>
@@ -154,37 +161,16 @@
                             <button class="btn btn-info active" type="submit" name = "picklemodel">Create & Save Final Model</button>
                             {% endif %}
                         <br>
-                        {% comment %} <h5>
-                            <br>
-                            Accuracy: {{accfilename}} %
-                        </h5> {% endcomment %}
                         </form>
                         {% if pickle_status == True %}
                         <form action="/host_model" method="GET">
                             {% csrf_token %}                         
                             <br>
-                            {% comment %} {% if pickle_status == False %}
-                            <div class="alert alert-danger" role="alert">
-                                <p>Click on all the above Algorithms to find out the Best Model from them</p>
-                            </div>
-                            <button type="button" class="btn btn-info disabled">Create Final Model</button>
-                            {% elif pickle_status == True %}
-                            <div class="alert alert-success" role="alert">
-                                <p><b>"{{ finalmodelname }}"</b> Model is created and pickled. <b>Filename: {{ filenamefinal }}</b> </p>
-                            </div>
-                            <div>
-                                <canvas id="myChart"></canvas>
-                            </div>
-                            <br>
-                            {% else %} {% endcomment %}
+
                             <p>Click on the Host Button to host the ML model </p>
                             <button class="btn btn-info active" type="submit" name = "hostmodel">Host Pickle Model</button>
-                            {% comment %} {% endif %} {% endcomment %}
                         <br>
-                        {% comment %} <h5>
-                            <br>
-                            Accuracy: {{accfilename}} %
-                        </h5> {% endcomment %}
+
                         </form>
                         {% endif %}
                         <figure></figure>

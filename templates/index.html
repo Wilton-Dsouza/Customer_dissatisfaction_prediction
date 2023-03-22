@@ -59,8 +59,8 @@
                             company's products or services. An approach to calculating this rate is through customer
                             attrition analysis. Attrition analysis essentially shows you what proportion of your consumers
                             don't make a return purchase compared to the proportion that do repeat business. Currently, we are 
-                            Processing only for 3 products i.e., <b> "SAP Advanced Planner and Optimizer", "SAP Cost Center Accounting" &
-                            "SAP Enterprise Learning"</b><br></p>
+                            Processing only for 3 products i.e., <b> "Product1", "Product2" &
+                            "Product3"</b><br></p>
                         <br>    
                         <h4><b>Prerequisites:</b></h4>
                         <p>Click on the Upload Dataset button to upload the Dataset. The Dataset should have following factors before
@@ -104,6 +104,51 @@
                                     <p>{{ exception }}</p>
                                 </div>
                             {% endif %}
+                            {% if countryvaluecheck == True %}
+                                <div class="alert alert-danger" role="alert">
+                                    <p>The values under <b>country</b> column is not correct based on the Prerequisites. Please check and reupload</p>
+                                </div>
+                            {% endif %}
+                            {% if product1valuecheck == True %}
+                                <div class="alert alert-danger" role="alert">
+                                    <p>The values under <b>Product1</b> column is not correct based on the Prerequisites. Please check and reupload</p>
+                                </div>
+                            {% endif %}
+                            {% if product2valuecheck == True %}
+                                <div class="alert alert-danger" role="alert">
+                                    <p>The values under <b>Product2</b> column is not correct based on the Prerequisites. Please check and reupload</p>
+                                </div>
+                            {% endif %}
+                            {% if product3valuecheck == True %}
+                            <div class="alert alert-danger" role="alert">
+                                <p>The values under <b>Product3</b> column is not correct based on the Prerequisites. Please check and reupload</p>
+                            </div>
+                            {% endif %}
+                            {% if activemembervaluecheck == True %}
+                            <div class="alert alert-danger" role="alert">
+                                <p>The values under <b>active_member</b> column is not correct based on the Prerequisites. Please check and reupload</p>
+                            </div>
+                            {% endif %}
+                            {% if ratingsvaluecheck == True %}
+                            <div class="alert alert-danger" role="alert">
+                                <p>The values under <b>Customer feedback Ratings</b> column is not correct based on the Prerequisites. Please check and reupload</p>
+                            </div>
+                            {% endif %}
+                            {% if churnvaluecheck == True %}
+                            <div class="alert alert-danger" role="alert">
+                                <p>The values under <b>churn</b> column is not correct based on the Prerequisites. Please check and reupload</p>
+                            </div>
+                            {% endif %}
+                            {% if nullstatus == True %}
+                                <div class="alert alert-danger" role="alert">
+                                    <p>There are <b>empty values</b> in the dataset. Please upload dataset with appropriate values</p>
+                                </div>
+                            {% endif %}
+                            {% if duplicatestatus == True %}
+                                <div class="alert alert-danger" role="alert">
+                                    <p>There are <b>duplicate values</b> in the dataset. Please remove the duplicates and reupload the dataset</p>
+                                </div>
+                            {% endif %}
                             <input type="file" name="dataUpload">
                             <br>
                             <br>
@@ -112,42 +157,7 @@
                         </form>
                         <br>
                         <br>
-                        {% comment %} <form action="/train" method="POST">
-                            {% csrf_token %} 
-                        
-                            <h2 id = "algo">Choose algorithm</h2>
-                            <br>
-                        <button class="btn btn-info" type="submit" name = "decisionTree">Decision Tree</button>
-                        <button class="btn btn-info" type="submit" name="svm" style="margin:0;margin-left:16px;">Support Vector Machines</button>
-                        <button class="btn btn-info" type="submit" name="LDA" style="margin:0;margin-left:16px;">Linear Discriminant Analysis</button>
-                        <h5>
-                            <br>
-                            Accuracy: {{accuracy}}
-                            </h5>
-                        </form>
-                             {% endcomment %}
-                        
                         <br>
-                        {% comment %} <h2>Download Predictions</h2>
-                        <form action="/predict" method="POST">
-                            {% csrf_token %} 
-                            <button class="btn btn-success" type="submit" name="lg">Logistic regression</button>
-                            <button class="btn btn-success" type="submit" name="xg" style="margin-left:16px;">XGBoost</button>
-                        </form> {% endcomment %}
-                        
-                        
-                        {% comment %} <form action="/eval" method="POST">
-                            {% csrf_token %} 
-                            <h2>Evaluation Metrics</h2>
-                            <br>
-                            <button class="btn btn-info" type="submit" name='dt_metric'>Show Decision Tree Metrics</button>
-                            <button class="btn btn-info" type="submit" name='svm_metric'>Show SVM Metrics</button>
-                            <button class="btn btn-info" type="submit" name='lda_metric'>Show LDA Metrics</button>
-                            <h5>
-                            <br>
-                            Accuracy: {{accuracy}}
-                            </h5>
-                        </form> {% endcomment %}
                         <figure></figure>
                     </div>
                 </div>
