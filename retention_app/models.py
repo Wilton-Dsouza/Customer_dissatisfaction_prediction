@@ -8,7 +8,7 @@ from django.contrib.auth import login,logout,authenticate
 from django.contrib.auth.forms import AuthenticationForm
 import pickle
 import json
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, Http404
 from django.core.files.storage import FileSystemStorage
 from sklearn.model_selection import train_test_split, cross_val_score, cross_val_predict
 from sklearn.metrics import accuracy_score
@@ -18,6 +18,7 @@ import joblib
 ldaButton = True
 DTbutton = True
 svmButton = True
+hostmodelstatus = False
 
 def home(request):
     global ldaButton
@@ -289,6 +290,8 @@ def training(request):
         return render(request,'upload.html',accfile)
     
 def picklemodel(request):
+    global hostmodelstatus
+    hostmodelstatus = False
     try:
         if svmButton == False and DTbutton == False and ldaButton == False:
             final_model = model
@@ -356,27 +359,38 @@ def logoutmethod(request):
     logout(request)
     return render(request,'login.html')
 
+def enablehostmodel(request):
+    global hostmodelstatus
+    hostmodelstatus = True
+    if hostmodelstatus == True:
+        return hostmodel(request)
+
 def hostmodel(request):
-    if request.method == 'POST':
-        data =  json.loads(request.body)
-        dataF=pd.DataFrame({'x':data}).transpose()
-        model = joblib.load("./Final_Model_pickle/Final_Pickled_model.pkl", "rb")
-        cols_when_model_builds = model.feature_names
-        dataF = dataF.reindex(columns=cols_when_model_builds)
-        prediction = model.predict(dataF)
-        prediction = json.dumps(int(prediction[0]))
-        probability =  model.predict_proba(dataF)[:,1]
-        probability = json.dumps(float(probability[0]))
-        dataResponse = {
-            'prediction': prediction,
-            'probability': probability
-        }
-        return JsonResponse(dataResponse)
+    global hostmodelstatus
+    if hostmodelstatus == False:
+        raise Http404('Path not found')
     else:
-        filedetails = {
-            'filename': 'Final_Pickled_model.pkl'
-        }
-        return render(request, 'hostmodel.html',filedetails)
+        if request.method == 'POST':
+            data =  json.loads(request.body)
+            dataF=pd.DataFrame({'x':data}).transpose()
+            model = joblib.load("./Final_Model_pickle/Final_Pickled_model.pkl", "rb")
+            cols_when_model_builds = model.feature_names
+            dataF = dataF.reindex(columns=cols_when_model_builds)
+            prediction = model.predict(dataF)
+            prediction = json.dumps(int(prediction[0]))
+            probability =  model.predict_proba(dataF)[:,1]
+            probability = json.dumps(float(probability[0]))
+            dataResponse = {
+                'prediction': prediction,
+                'probability': probability
+            }
+            return JsonResponse(dataResponse)
+        else:
+            hostmodelstatus = True
+            filedetails = {
+                'filename': 'Final_Pickled_model.pkl'
+            }
+            return render(request, 'hostmodel.html',filedetails)
 
 def getmodel(request):
     if request.method == 'GET':

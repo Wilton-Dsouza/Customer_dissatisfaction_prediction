@@ -11,6 +11,7 @@ urlpatterns = [
         path('home',models.home, name = 'home'),
         path('upload',models.upload, name = 'upload'),
         path('train',models.training, name = 'training'),
+        path('enable',models.enablehostmodel, name ="enablehostmodel"),
         path('pickle_model',models.picklemodel, name = 'pickle_model'),
         path('host_model',csrf_exempt(models.hostmodel), name = 'host_model'),
         path('get_model',csrf_exempt(models.getmodel), name = 'get_model'),
