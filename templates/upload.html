@@ -122,6 +122,14 @@
                                 of nodes found in decision trees. It is one of the most often used attrition prediction models
                                 since it can predict both continuous and categorical data.
                             </p>
+                            <p>
+                                A decision tree is a flowchart-like structure in which each internal node represents a "test" on an attribute (e.g. whether a coin flip comes up heads or tails), each branch represents the outcome of the test, and each leaf node represents a class label (decision taken after computing all attributes).
+                                 The paths from root to leaf represent classification rules.
+                            </p>
+                            <center><img src="{% static '../static/img/dT1.png' %}" height='370px' alt=""></center>
+                            <p>
+                                Decision trees are commonly used in operations research and operations management. If, in practice, decisions have to be taken online with no recall under incomplete knowledge, a decision tree should be paralleled by a probability model as a best choice model or online selection model algorithm.[ Another use of decision trees is as a descriptive means for calculating conditional probabilities.
+                            </p>
                         {% endif %}
                         {% if svmdescription == True %}
                         <p>Support Vector Machines is used to uncover hidden trends in the dataset. It is a supervised
@@ -130,12 +138,24 @@
                             and assigned a class based on how close they are to the hyperplane. When used to predict
                             customer attrition, this model works remarkably well.
                         </p>
+                        <p>SVM: Generalizes the Optimally Separating Hyperplane(OSH). OSH assumes that all groups are totally separable, SVM makes use of a 'slack variable' that allows a certain amount of overlap between the groups. 
+                            SVM makes no assumptions about the data at all, meaning it is a very flexible method. 
+                            The flexibility on the other hand often makes it more difficult to interpret the results from a SVM classifier
+                        </p>
+                        <p>Support vector machines find a linear separator (linear combination, hyperplane) that separates the classes with the least error, and chooses the separator with the maximum margin (the width that the boundary could be increased before hitting a data point).</p>
+                        <center><img src="{% static '../static/img/svm1.png' %}" height='370px' alt=""></center>
                         {% endif %}
                         {% if ldadescription == True %}
                         <p>Linear Discriminant Analysis (LDA) is a dimensionality reduction technique. By splitting
                             groups into two or more classes, it is used to illustrate how groups differ from one another.
                             This technique divides the two groups as clearly as possible between the two groups using data
                             from the dataset (in our case, the two groups are customers who stay and customers who leave).</p>
+                        <p>Assumes: data is Normally distributed. All groups are identically distributed, in case the groups have different covariance matrices, LDA becomes Quadratic Discriminant Analysis. 
+                            LDA is the best discriminator available in case all assumptions are actually met. QDA, by the way, is a non-linear classifier.</p>
+                        <p>Linear discriminant analysis finds the mean vectors of each class, then finds projection direction (rotation) that maximizes separation of means:</p>
+                        <center><img src="{% static '../static/img/lda1.png' %}" height='270px' alt=""></center>
+                        <p>It also takes into account within-class variance to find a projection which minimizes overlap of distributions (covariance) while maximizing the separation of means:</p>
+                        <center><img src="{% static '../static/img/lda2.png' %}" height='270px' alt=""></center>
                         {% endif %}
                         </form>
                         <br>
