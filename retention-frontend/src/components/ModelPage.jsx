@@ -14,6 +14,9 @@ function ModelPage () {
         },
         })
         .then((response) => {
+            if(!response.ok){
+                
+            }
             return response.json();
         },
         err => {
@@ -31,6 +34,7 @@ function ModelPage () {
     let userResponse = {};
     let screenDisplayResponse = {};
     const [finalscreenDisplayResponse,setfinalscreenDisplayResponse] = useState({});
+    const [hostmodelstatus,sethostmodelstatus] = useState({});
     function handleDropdownChange(event) {
         var value2 = event.target.value;
         var name = event.target.name;
@@ -109,6 +113,10 @@ function ModelPage () {
             body: JSON.stringify(userResponse),
             })
             .then((response) => {
+                if(!response.ok){
+                    console.log("Hi")
+                    sethostmodelstatus("Model not hosted")
+                }
                 return response.json();
             })
             .then((data) => {
@@ -284,6 +292,13 @@ function ModelPage () {
                         </Alert>
                         </div>
                     </ElseIf>
+                    <ElseIf condition={hostmodelstatus === "Model not hosted"}>
+                        <div className="col-md-8">
+                        <Alert key="danger" variant="danger">
+                            Something went Wrong. It seems that Model is not Hosted.Please Contact the Admin Team and <b>Refresh</b> the screen
+                        </Alert>
+                        </div>
+                    </ElseIf>
                     <ElseIf condition={finaluserResponse.prediction}>
                     <div className="col-md-7">
                         <If condition={finaluserResponse.prediction === "1"}>
@@ -318,7 +333,6 @@ function ModelPage () {
                                             </ul>
                                         </ElseIf>
                                         <ElseIf condition={finaluserResponse.probability > 0.65}> 
-                                        <h1>Reached inside</h1>
                                                 <ul>
                                                 <li style={{color:"red"}}>Poor Customer Experience</li>
                                                 <li style={{color:"red"}}>Lack of Personalization</li>
