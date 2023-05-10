@@ -15,4 +15,5 @@ urlpatterns = [
         path('pickle_model',models.picklemodel, name = 'pickle_model'),
         path('host_model',csrf_exempt(models.hostmodel), name = 'host_model'),
         path('get_model',csrf_exempt(models.getmodel), name = 'get_model'),
+        path('duplicate_response',models.duplicate_response,name = 'duplicate_response')
         ]

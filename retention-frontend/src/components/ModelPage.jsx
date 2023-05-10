@@ -114,7 +114,6 @@ function ModelPage () {
             })
             .then((response) => {
                 if(!response.ok){
-                    console.log("Hi")
                     sethostmodelstatus("Model not hosted")
                 }
                 return response.json();

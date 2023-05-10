@@ -160,6 +160,7 @@ def upload(request):
                  print("\033[32mValidation for null values check is passed\033[0m")
 
             if df.duplicated().any():
+                global duplicatefilestatus
                 duplicatestatus = True
                 duplicatefilestatus = {
                     'duplicatestatus': duplicatestatus
@@ -400,3 +401,13 @@ def getmodel(request):
         else:
             data = {'message': 'File does not exist'}
         return JsonResponse(data)
+    
+def duplicate_response(request):
+    if request.method == 'POST':
+        print("REACHED HERE")
+        choice = request.POST.get('choice',None)
+        if choice == 'yes':
+            print("Reached here")
+            return render(request,'upload.html',filename)
+        elif choice == 'no':
+            return render(request,'index.html')

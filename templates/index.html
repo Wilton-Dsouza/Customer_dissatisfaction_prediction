@@ -103,6 +103,18 @@
                           </div>
                         <br>
                         <h4 id = "uploadDataset"><b>Upload Dataset:</b></h4>
+                        {% if duplicatestatus == True %}
+                                <form action="/duplicate_response" method="POST" >
+                                {% csrf_token %}
+                                <div class="alert alert-warning d-flex align-items-center justify-content-between" role="alert">
+                                    Warning: Are you sure you want to proceed?
+                                    <div class="btn-group" role="group" aria-label="Yes or No buttons">
+                                        <button type="submit" name="choice" value="no" class="btn btn-danger mr-2">No</button>
+                                        <button type="submit" name="choice" value="yes" class="btn btn-success">Yes</button>
+                                    </div>
+                                </div>
+                            </form>                       
+                        {% endif %}
                         <form action="/upload" method="POST"  enctype="multipart/form-data">
                             {% csrf_token %}
                             {% if valstatus == False %}
@@ -160,16 +172,10 @@
                                     <p>There are <b>empty values</b> in the dataset. Please upload dataset with appropriate values</p>
                                 </div>
                             {% endif %}
-                            {% if duplicatestatus == True %}
-                                <div class="alert alert-danger" role="alert">
-                                    <p>There are <b>duplicate values</b> in the dataset. Please remove the duplicates and reupload the dataset</p>
-                                </div>
-                            {% endif %}
                             <input type="file" name="dataUpload">
                             <br>
                             <br>
                             <button class="btn btn-info btn-block" type="submit">Submit</button>
-
                         </form>
                         <br>
                         <br>
