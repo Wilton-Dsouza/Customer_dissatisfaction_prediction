@@ -424,24 +424,30 @@ function ModelPage() {
                         <GaugeChart id="gauge-chart5" percent={0.0} />
                       </Else>
                     </If>
-                    <If condition={finaluserResponse.prediction === "1"}>
+                    <If condition={finaluserResponse.prediction}>
                       <Then>
-                        <div className="row">
-                          <Alert key="danger" variant="danger">
-                            Customer is <b>"likely to churn"</b> out of the
-                            company
-                          </Alert>
-                        </div>
+                        <If condition={finaluserResponse.prediction === "1"}>
+                          <Then>
+                            <div className="row">
+                              <Alert key="danger" variant="danger">
+                                Customer is <b>"likely to churn"</b> out of the
+                                company
+                              </Alert>
+                            </div>
+                          </Then>
+                        </If>
+                        <If condition={finaluserResponse.prediction === "0"}>
+                          <Then>
+                            <div className="row">
+                              <Alert key="success" variant="success">
+                                Customer is <b>"not likely to churn"</b> out of
+                                the company
+                              </Alert>
+                            </div>
+                          </Then>
+                        </If>
                       </Then>
                     </If>
-                    <ElseIf condition={finaluserResponse.prediction === "0"}>
-                      <div className="row">
-                        <Alert key="success" variant="success">
-                          Customer is <b>"not likely to churn"</b> out of the
-                          company
-                        </Alert>
-                      </div>
-                    </ElseIf>
                   </div>
                   <If condition={filemessage === "SubmitDisable"}>
                     <Then>
@@ -476,60 +482,74 @@ function ModelPage() {
                     </ElseIf>
                     <ElseIf condition={finaluserResponse.prediction}>
                       <div className="col-md-7" style={{ marginLeft: "80px" }}>
-                      <h4>Entered Details:</h4>
+                        <h4>Entered Details:</h4>
                         <If condition={finaluserResponse.prediction === "1"}>
                           <Then>
                             <div className="row">
                               {Object.entries(finalscreenDisplayResponse).map(
                                 ([key, value]) => (
-                                    <div key={key}>
+                                  <div key={key}>
                                     {/* <span>{key}:</span>{" "} */}
-                                    <If condition={key==="Country"}>
-                                        <Then>
-                                            <span>1. Which Country is the Customer from:</span>{" "}
-                                        </Then>
+                                    <If condition={key === "Country"}>
+                                      <Then>
+                                        <span>
+                                          1. Which Country is the Customer from:
+                                        </span>{" "}
+                                      </Then>
                                     </If>
-                                    <If condition={key==="Tenure"}>
-                                        <Then>
-                                            <span>2. How many years has the Customer been with us:</span>{" "}
-                                        </Then>
+                                    <If condition={key === "Tenure"}>
+                                      <Then>
+                                        <span>
+                                          2. How many years has the Customer
+                                          been with us:
+                                        </span>{" "}
+                                      </Then>
                                     </If>
-                                    <If condition={key==="Product 1"}>
-                                        <Then>
-                                            <span>3. Is the Customer using Product 1:</span>{" "}
-                                        </Then>
+                                    <If condition={key === "Product 1"}>
+                                      <Then>
+                                        <span>
+                                          3. Is the Customer using Product 1:
+                                        </span>{" "}
+                                      </Then>
                                     </If>
-                                    <If condition={key==="Product 2"}>
-                                        <Then>
-                                            <span>4. Is the Customer using Product 2:</span>{" "}
-                                        </Then>
+                                    <If condition={key === "Product 2"}>
+                                      <Then>
+                                        <span>
+                                          4. Is the Customer using Product 2:
+                                        </span>{" "}
+                                      </Then>
                                     </If>
-                                    <If condition={key==="Product 3"}>
-                                        <Then>
-                                            <span>5. Is the Customer using Product 2:</span>{" "}
-                                        </Then>
+                                    <If condition={key === "Product 3"}>
+                                      <Then>
+                                        <span>
+                                          5. Is the Customer using Product 2:
+                                        </span>{" "}
+                                      </Then>
                                     </If>
-                                    <If condition={key==="Active Member"}>
-                                        <Then>
-                                            <span>6. Is the Customer an Active Member:</span>{" "}
-                                        </Then>
+                                    <If condition={key === "Active Member"}>
+                                      <Then>
+                                        <span>
+                                          6. Is the Customer an Active Member:
+                                        </span>{" "}
+                                      </Then>
                                     </If>
-                                    <If condition={key==="Feedback"}>
-                                        <Then>
-                                            <span>7. What is the Rating provided by the Customer:</span>{" "}
-                                        </Then>
+                                    <If condition={key === "Feedback"}>
+                                      <Then>
+                                        <span>
+                                          7. What is the Rating provided by the
+                                          Customer:
+                                        </span>{" "}
+                                      </Then>
                                     </If>
                                     <b>
-                                    <span>
-                                      {value}
-                                    </span>
+                                      <span>{value}</span>
                                     </b>
                                   </div>
                                 )
                               )}
                             </div>
                             <div className="row">
-                                <h4>Few Reasons to think about:</h4>
+                              <h4>Few Reasons to think about:</h4>
                               <If
                                 condition={
                                   finaluserResponse.probability <= 0.35
@@ -594,45 +614,59 @@ function ModelPage() {
                                 ([key, value]) => (
                                   <div key={key}>
                                     {/* <span>{key}:</span>{" "} */}
-                                    <If condition={key==="Country"}>
-                                        <Then>
-                                            <span>1. Which Country is the Customer from:</span>{" "}
-                                        </Then>
+                                    <If condition={key === "Country"}>
+                                      <Then>
+                                        <span>
+                                          1. Which Country is the Customer from:
+                                        </span>{" "}
+                                      </Then>
                                     </If>
-                                    <If condition={key==="Tenure"}>
-                                        <Then>
-                                            <span>2. How many years has the Customer been with us:</span>{" "}
-                                        </Then>
+                                    <If condition={key === "Tenure"}>
+                                      <Then>
+                                        <span>
+                                          2. How many years has the Customer
+                                          been with us:
+                                        </span>{" "}
+                                      </Then>
                                     </If>
-                                    <If condition={key==="Product 1"}>
-                                        <Then>
-                                            <span>3. Is the Customer using Product 1:</span>{" "}
-                                        </Then>
+                                    <If condition={key === "Product 1"}>
+                                      <Then>
+                                        <span>
+                                          3. Is the Customer using Product 1:
+                                        </span>{" "}
+                                      </Then>
                                     </If>
-                                    <If condition={key==="Product 2"}>
-                                        <Then>
-                                            <span>4. Is the Customer using Product 2:</span>{" "}
-                                        </Then>
+                                    <If condition={key === "Product 2"}>
+                                      <Then>
+                                        <span>
+                                          4. Is the Customer using Product 2:
+                                        </span>{" "}
+                                      </Then>
                                     </If>
-                                    <If condition={key==="Product 3"}>
-                                        <Then>
-                                            <span>5. Is the Customer using Product 2:</span>{" "}
-                                        </Then>
+                                    <If condition={key === "Product 3"}>
+                                      <Then>
+                                        <span>
+                                          5. Is the Customer using Product 2:
+                                        </span>{" "}
+                                      </Then>
                                     </If>
-                                    <If condition={key==="Active Member"}>
-                                        <Then>
-                                            <span>6. Is the Customer an Active Member:</span>{" "}
-                                        </Then>
+                                    <If condition={key === "Active Member"}>
+                                      <Then>
+                                        <span>
+                                          6. Is the Customer an Active Member:
+                                        </span>{" "}
+                                      </Then>
                                     </If>
-                                    <If condition={key==="Feedback"}>
-                                        <Then>
-                                            <span>7. What is the Rating provided by the Customer:</span>{" "}
-                                        </Then>
+                                    <If condition={key === "Feedback"}>
+                                      <Then>
+                                        <span>
+                                          7. What is the Rating provided by the
+                                          Customer:
+                                        </span>{" "}
+                                      </Then>
                                     </If>
                                     <b>
-                                    <span>
-                                      {value}
-                                    </span>
+                                      <span>{value}</span>
                                     </b>
                                   </div>
                                 )
