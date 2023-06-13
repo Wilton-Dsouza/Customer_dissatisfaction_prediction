@@ -107,7 +107,7 @@
                                 <form action="/duplicate_response" method="POST" >
                                 {% csrf_token %}
                                 <div class="alert alert-warning d-flex align-items-center justify-content-between" role="alert">
-                                    Warning: Are you sure you want to proceed?
+                                    Warning: The Dataset Contains "Duplicates" records. Are you sure you want to proceed?
                                     <div class="btn-group" role="group" aria-label="Yes or No buttons">
                                         <button type="submit" name="choice" value="no" class="btn btn-danger mr-2">No</button>
                                         <button type="submit" name="choice" value="yes" class="btn btn-success">Yes</button>

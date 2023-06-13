@@ -618,14 +618,14 @@ function ModelPage() {
                                     {/* <span>{key}:</span>{" "} */}
                                     <If condition={key === "Country"}>
                                       <Then>
-                                        <span>
+                                      <span style={{color:"white"}}>
                                           1. Which Country is the Customer from:
                                         </span>{" "}
                                       </Then>
                                     </If>
                                     <If condition={key === "Tenure"}>
                                       <Then>
-                                        <span>
+                                      <span style={{color:"white"}}>
                                           2. How many years has the Customer
                                           been with us:
                                         </span>{" "}
@@ -633,35 +633,35 @@ function ModelPage() {
                                     </If>
                                     <If condition={key === "Product 1"}>
                                       <Then>
-                                        <span>
+                                      <span style={{color:"white"}}>
                                           3. Is the Customer using Product 1:
                                         </span>{" "}
                                       </Then>
                                     </If>
                                     <If condition={key === "Product 2"}>
                                       <Then>
-                                        <span>
+                                      <span style={{color:"white"}}>
                                           4. Is the Customer using Product 2:
                                         </span>{" "}
                                       </Then>
                                     </If>
                                     <If condition={key === "Product 3"}>
                                       <Then>
-                                        <span>
+                                      <span style={{color:"white"}}>
                                           5. Is the Customer using Product 2:
                                         </span>{" "}
                                       </Then>
                                     </If>
                                     <If condition={key === "Active Member"}>
                                       <Then>
-                                        <span>
+                                      <span style={{color:"white"}}>
                                           6. Is the Customer an Active Member:
                                         </span>{" "}
                                       </Then>
                                     </If>
                                     <If condition={key === "Feedback"}>
                                       <Then>
-                                        <span>
+                                      <span style={{color:"white"}}>
                                           7. What is the Rating provided by the
                                           Customer:
                                         </span>{" "}
